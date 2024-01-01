@@ -1,0 +1,11 @@
+sys-libs/glibc::jhatler-overlay
+sys-fs/e2fsprogs::jhatler-overlay
+dev-python/send2trash::jhatler-overlay
+dev-python/betamax::jhatler-overlay
+sys-devel/libtool::jhatler-overlay
+dev-python/kiwisolver::jhatler-overlay
+dev-python/terminado::jhatler-overlay
+dev-python/pytest-virtualenv::jhatler-overlay
+dev-python/uvloop::jhatler-overlay
+dev-python/bcrypt::jhatler-overlay
+dev-python/matplotlib::jhatler-overlay
