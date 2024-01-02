@@ -1,0 +1,8 @@
+# needed for bootctl (systemd-boot)
+sys-apps/systemd boot 
+
+# support LUKS volumes
+sys-apps/systemd cryptsetup
+
+# Automatically install UKI kernel to systemd-boot
+sys-apps/systemd kernel-install
