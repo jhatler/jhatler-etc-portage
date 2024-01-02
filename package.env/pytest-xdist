@@ -1,0 +1,1 @@
+dev-python/cryptography pytest-xdist.conf # needed to run tests in parallel

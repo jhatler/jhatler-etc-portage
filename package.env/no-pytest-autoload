@@ -1,0 +1,1 @@
+dev-python/cryptography no-pytest-autoload.conf # fails to import openssl rust crate
