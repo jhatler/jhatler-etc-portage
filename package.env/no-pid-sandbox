@@ -1,0 +1,1 @@
+sys-apps/systemd no-pid-sandbox.conf # systemd:test / test-process-util fails under pid-sandbox
