@@ -1,0 +1,5 @@
+# needed for lvm command line tool
+sys-fs/lvm2 lvm2
+
+# thin provisioning support
+sys-fs/lvm2 thin

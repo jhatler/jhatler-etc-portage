@@ -1,0 +1,2 @@
+# Needed to pull in latest sys-block/thin-provisioning-tools
+sys-fs/lvm2 ~amd64
