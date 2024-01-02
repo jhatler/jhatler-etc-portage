@@ -1,0 +1,2 @@
+# This is an ancient version and tests depend on /dev/kmem which doesn't exist
+<sys-devel/autoconf-2.14 no-test.conf
