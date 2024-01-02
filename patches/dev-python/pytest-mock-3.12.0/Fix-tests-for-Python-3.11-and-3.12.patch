@@ -1,0 +1,28 @@
+From 8480bb6d0500f933be039cfec65e04157e6ecffe Mon Sep 17 00:00:00 2001
+From: Bruno Oliveira <nicoddemus@gmail.com>
+Date: Tue, 19 Dec 2023 08:24:23 -0300
+Subject: [PATCH 5/7] Fix tests for Python 3.11 and 3.12
+
+Fixes #401.
+---
+ tests/test_pytest_mock.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/tests/test_pytest_mock.py b/tests/test_pytest_mock.py
+index 3ee00da..7acb361 100644
+--- a/tests/test_pytest_mock.py
++++ b/tests/test_pytest_mock.py
+@@ -246,9 +246,8 @@ class TestMockerStub:
+             msg = "Expected call: {0}()\nNot called"
+         expected_message = msg.format(expected_name)
+         stub = mocker.stub(**kwargs)
+-        with pytest.raises(AssertionError) as exc_info:
++        with pytest.raises(AssertionError, match=re.escape(expected_message)) as exc_info:
+             stub.assert_called_with()
+-        assert str(exc_info.value) == expected_message
+ 
+     def test_failure_message_with_no_name(self, mocker: MagicMock) -> None:
+         self.__test_failure_message(mocker)
+-- 
+2.43.0
+
