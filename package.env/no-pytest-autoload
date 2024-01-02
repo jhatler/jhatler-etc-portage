@@ -1,1 +1,2 @@
 dev-python/cryptography no-pytest-autoload.conf # fails to import openssl rust crate
+dev-python/bcrypt no-pytest-autoload.conf # fails to import c extension
