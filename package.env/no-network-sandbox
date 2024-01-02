@@ -1,0 +1,1 @@
+app-shells/liquidprompt no-network-sandbox.conf # test fails without access to github
