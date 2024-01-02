@@ -1,0 +1,206 @@
+diff --git a/gio/gioenums.h b/gio/gioenums.h
+index 7fd74a43ea0d34849fb48ba7554d9f9e602347ef..c820cd36d434b5c2d306c6b804f8482d338d5ab6 100644
+--- a/gio/gioenums.h
++++ b/gio/gioenums.h
+@@ -224,6 +224,9 @@ typedef enum {
+  *   sizes.  Normally, the block-size is used, if available, as this is a
+  *   more accurate representation of disk space used.
+  *   Compare with `du --apparent-size`.
++ *   Since GLib 2.78. and similarly to `du` since GNU Coreutils 9.2, this will
++ *   ignore the sizes of file types other than regular files and links, as the
++ *   sizes of other file types are not specified in a standard way.
+  * @G_FILE_MEASURE_NO_XDEV: Do not cross mount point boundaries.
+  *   Compare with `du -x`.
+  *
+diff --git a/gio/glocalfile.c b/gio/glocalfile.c
+index 67d4b99fb741d920a3c433a07f4650940dededc3..dbb56902d57920ef4ad358b9dea24d654d72130d 100644
+--- a/gio/glocalfile.c
++++ b/gio/glocalfile.c
+@@ -86,6 +86,9 @@
+ #define FILE_READ_ONLY_VOLUME           0x00080000
+ #endif
+ 
++#ifndef S_ISREG
++#define S_ISREG(m) (((m) & _S_IFMT) == _S_IFREG)
++#endif
+ #ifndef S_ISDIR
+ #define S_ISDIR(m) (((m) & _S_IFMT) == _S_IFDIR)
+ #endif
+@@ -2777,6 +2780,39 @@ g_local_file_measure_size_of_contents (gint           fd,
+                                        MeasureState  *state,
+                                        GError       **error);
+ 
++/*
++ * _g_stat_is_size_usable:
++ * @buf: a #GLocalFileStat.
++ *
++ * Checks if the file type is such that the `st_size` field of `struct stat` is
++ * well-defined by POSIX.
++ * (see https://pubs.opengroup.org/onlinepubs/009696799/basedefs/sys/stat.h.html)
++ *
++ * This behaviour is aligned with `du` from GNU Coreutils 9.2+
++ * (see https://lists.gnu.org/archive/html/bug-coreutils/2023-03/msg00007.html)
++ * and makes apparent size sums well-defined; formerly, they depended on the
++ * implementation, and could differ across filesystems.
++ *
++ * Returns: %TRUE if the size field is well-defined, %FALSE otherwise.
++ **/
++inline static gboolean
++_g_stat_is_size_usable (const GLocalFileStat *buf)
++{
++#ifndef HAVE_STATX
++  /* Memory objects are defined by POSIX, but are not supported by statx nor Windows */
++#ifdef S_TYPEISSHM
++  if (S_TYPEISSHM (buf))
++    return TRUE;
++#endif
++#ifdef S_TYPEISTMO
++  if (S_TYPEISTMO (buf))
++    return TRUE;
++#endif
++#endif
++
++  return S_ISREG (_g_stat_mode (buf)) || S_ISLNK (_g_stat_mode (buf));
++}
++
+ static gboolean
+ g_local_file_measure_size_of_file (gint           parent_fd,
+                                    GSList        *name,
+@@ -2836,6 +2872,7 @@ g_local_file_measure_size_of_file (gint           parent_fd,
+     state->disk_usage += _g_stat_blocks (&buf) * G_GUINT64_CONSTANT (512);
+   else
+ #endif
++  if (_g_stat_is_size_usable (&buf))
+     state->disk_usage += _g_stat_size (&buf);
+ 
+   if (S_ISDIR (_g_stat_mode (&buf)))
+diff --git a/gio/tests/file.c b/gio/tests/file.c
+index d16eda5c0b8c7316e926f074f0de282abe88a158..ad2f945f93974df0fa7f545427cdb312cc64ee0f 100644
+--- a/gio/tests/file.c
++++ b/gio/tests/file.c
+@@ -2515,75 +2515,10 @@ test_copy_preserve_mode (void)
+ #endif
+ }
+ 
+-static gchar *
+-splice_to_string (GInputStream   *stream,
+-                  GError        **error)
+-{
+-  GMemoryOutputStream *buffer = NULL;
+-  char *ret = NULL;
+-
+-  buffer = (GMemoryOutputStream*)g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
+-  if (g_output_stream_splice ((GOutputStream*)buffer, stream, 0, NULL, error) < 0)
+-    goto out;
+-
+-  if (!g_output_stream_write ((GOutputStream*)buffer, "\0", 1, NULL, error))
+-    goto out;
+-
+-  if (!g_output_stream_close ((GOutputStream*)buffer, NULL, error))
+-    goto out;
+-
+-  ret = g_memory_output_stream_steal_data (buffer);
+- out:
+-  g_clear_object (&buffer);
+-  return ret;
+-}
+-
+-static gboolean
+-get_size_from_du (const gchar *path, guint64 *size)
+-{
+-  GSubprocess *du;
+-  gboolean ok;
+-  gchar *result;
+-  gchar *endptr;
+-  GError *error = NULL;
+-  gchar *du_path = NULL;
+-
+-#ifndef __APPLE__
+-  du_path = g_find_program_in_path ("du");
+-#endif
+-
+-  /* If we can’t find du, don’t try and run the test. */
+-  if (du_path == NULL)
+-    return FALSE;
+-
+-  g_free (du_path);
+-
+-  du = g_subprocess_new (G_SUBPROCESS_FLAGS_STDOUT_PIPE,
+-                         &error,
+-                         "du", "--bytes", "-s", path, NULL);
+-  g_assert_no_error (error);
+-
+-  result = splice_to_string (g_subprocess_get_stdout_pipe (du), &error);
+-  g_assert_no_error (error);
+-
+-  *size = g_ascii_strtoll (result, &endptr, 10);
+-
+-  g_subprocess_wait (du, NULL, &error);
+-  g_assert_no_error (error);
+-
+-  ok = g_subprocess_get_successful (du);
+-
+-  g_object_unref (du);
+-  g_free (result);
+-
+-  return ok;
+-}
+-
+ static void
+ test_measure (void)
+ {
+   GFile *file;
+-  guint64 size;
+   guint64 num_bytes;
+   guint64 num_dirs;
+   guint64 num_files;
+@@ -2594,12 +2529,6 @@ test_measure (void)
+   path = g_test_build_filename (G_TEST_DIST, "desktop-files", NULL);
+   file = g_file_new_for_path (path);
+ 
+-  if (!get_size_from_du (path, &size))
+-    {
+-      g_test_message ("du not found or fail to run, skipping byte measurement");
+-      size = 0;
+-    }
+-
+   ok = g_file_measure_disk_usage (file,
+                                   G_FILE_MEASURE_APPARENT_SIZE,
+                                   NULL,
+@@ -2612,8 +2541,7 @@ test_measure (void)
+   g_assert_true (ok);
+   g_assert_no_error (error);
+ 
+-  if (size > 0)
+-    g_assert_cmpuint (num_bytes, ==, size);
++  g_assert_cmpuint (num_bytes, ==, 74478);
+   g_assert_cmpuint (num_dirs, ==, 6);
+   g_assert_cmpuint (num_files, ==, 32);
+ 
+@@ -2665,8 +2593,7 @@ measure_done (GObject      *source,
+   g_assert_true (ok);
+   g_assert_no_error (error);
+ 
+-  if (data->expected_bytes > 0)
+-    g_assert_cmpuint (data->expected_bytes, ==, num_bytes);
++  g_assert_cmpuint (data->expected_bytes, ==, num_bytes);
+   g_assert_cmpuint (data->expected_dirs, ==, num_dirs);
+   g_assert_cmpuint (data->expected_files, ==, num_files);
+ 
+@@ -2695,15 +2622,9 @@ test_measure_async (void)
+ 
+   path = g_test_build_filename (G_TEST_DIST, "desktop-files", NULL);
+   file = g_file_new_for_path (path);
+-
+-  if (!get_size_from_du (path, &data->expected_bytes))
+-    {
+-      g_test_message ("du not found or fail to run, skipping byte measurement");
+-      data->expected_bytes = 0;
+-    }
+-
+   g_free (path);
+ 
++  data->expected_bytes = 74478;
+   data->expected_dirs = 6;
+   data->expected_files = 32;
+ 
