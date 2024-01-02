@@ -1,0 +1,11 @@
+--- a/tests/test_vars.in        2020-08-09 06:12:30.000000000 +0000
++++ b/tests/test_vars.in        2023-12-28 23:47:16.297918290 +0000
+@@ -9,7 +9,7 @@
+ # path of the tests directory
+ if [ x"@srcdir@" != x"." ]; then
+     if [ -z "@IS_MSVC@" -o "@IS_MSVC@" != "1" ]; then
+-       SRCDIR="@srcdir@/"
++       SRCDIR="$(realpath --relative-to=".." "@srcdir@")/"
+     else
+        SRCDIR="@srcdir@\\"
+     fi
