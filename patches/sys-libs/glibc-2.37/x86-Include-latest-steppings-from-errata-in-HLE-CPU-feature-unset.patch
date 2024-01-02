@@ -1,0 +1,16 @@
+--- a/sysdeps/x86/cpu-features.c	2023-02-01 03:27:45.000000000 +0000
++++ b/sysdeps/x86/cpu-features.c	2024-01-01 16:28:42.530031173 +0000
+@@ -522,8 +522,12 @@
+ 		 the errata was to disable TSX on all client processors on
+ 		 all steppings.  Include 0xc stepping which is an Intel
+ 		 Core i7-8665U, a client mobile processor.  */
++              /* The latest errata documents that IPU 2021.2 microcode
++                 includes the 0xc stepping as well now.  */
+ 	    case 0x9e:
+-	      if (stepping > 0xc)
++              /* The latest errata documents that stepping 0xd should be
++                 included as well now.  */
++	      if (stepping > 0xd)
+ 		break;
+ 	      /* Fall through.  */
+ 	    case 0x4e:
