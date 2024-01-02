@@ -1,0 +1,269 @@
+From ab4aae2c73e331f151d3ea88c25162ff77d6e010 Mon Sep 17 00:00:00 2001
+From: root <root@akrolf516z33>
+Date: Tue, 2 Jan 2024 15:42:51 +0000
+Subject: [PATCH] remove m_rootdir_acl test because it fails on btrfs
+
+---
+ tests/m_rootdir_acl/expect     | 119 ---------------------------------
+ tests/m_rootdir_acl/output.sed |   5 --
+ tests/m_rootdir_acl/script     | 110 ------------------------------
+ 3 files changed, 234 deletions(-)
+ delete mode 100644 tests/m_rootdir_acl/expect
+ delete mode 100644 tests/m_rootdir_acl/output.sed
+ delete mode 100644 tests/m_rootdir_acl/script
+
+diff --git a/tests/m_rootdir_acl/expect b/tests/m_rootdir_acl/expect
+deleted file mode 100644
+index 57f03e5..0000000
+--- a/tests/m_rootdir_acl/expect
++++ /dev/null
+@@ -1,119 +0,0 @@
+-Filesystem volume name:   <none>
+-Last mounted on:          <not available>
+-Filesystem magic number:  0xEF53
+-Filesystem revision #:    1 (dynamic)
+-Filesystem features:      has_journal ext_attr resize_inode dir_index filetype extent 64bit flex_bg inline_data sparse_super huge_file dir_nlink extra_isize metadata_csum
+-Default mount options:    (none)
+-Filesystem state:         clean
+-Errors behavior:          Continue
+-Filesystem OS type:       Linux
+-Inode count:              1024
+-Block count:              16384
+-Reserved block count:     819
+-Overhead clusters:        1799
+-Free blocks:              14533
+-Free inodes:              1003
+-First block:              1
+-Block size:               1024
+-Fragment size:            1024
+-Group descriptor size:    64
+-Reserved GDT blocks:      127
+-Blocks per group:         8192
+-Fragments per group:      8192
+-Inodes per group:         512
+-Inode blocks per group:   256
+-Flex block group size:    16
+-Mount count:              0
+-Check interval:           15552000 (6 months)
+-Reserved blocks uid:      0
+-Reserved blocks gid:      0
+-First inode:              11
+-Inode size:	          512
+-Required extra isize:     32
+-Desired extra isize:      32
+-Journal inode:            8
+-Default directory hash:   half_md4
+-Journal backup:           inode blocks
+-Checksum type:            crc32c
+-Journal features:         (none)
+-Total journal size:       1024k
+-Total journal blocks:     1024
+-Max transaction length:   1024
+-Fast commit length:       0
+-Journal sequence:         0x00000001
+-Journal start:            0
+-
+-
+-Group 0: (Blocks 1-8192)
+-  Primary superblock at 1, Group descriptors at 2-2
+-  Reserved GDT blocks at 3-129
+-  Block bitmap at 130 (+129)
+-  Inode bitmap at 132 (+131)
+-  Inode table at 134-389 (+133)
+-  7495 free blocks, 491 free inodes, 5 directories, 491 unused inodes
+-  Free blocks: 698-8192
+-  Free inodes: 22-512
+-Group 1: (Blocks 8193-16383) [INODE_UNINIT]
+-  Backup superblock at 8193, Group descriptors at 8194-8194
+-  Reserved GDT blocks at 8195-8321
+-  Block bitmap at 131 (bg #0 + 130)
+-  Inode bitmap at 133 (bg #0 + 132)
+-  Inode table at 390-645 (bg #0 + 389)
+-  7038 free blocks, 512 free inodes, 0 directories, 512 unused inodes
+-  Free blocks: 9346-16383
+-  Free inodes: 513-1024
+-debugfs: stat /emptyfile
+-Inode: III   Type: regular    
+-Size: 0
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /bigfile
+-Inode: III   Type: regular    
+-Size: 32768
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /sparsefile
+-Inode: III   Type: regular    
+-Size: 1073741825
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /bigzerofile
+-Inode: III   Type: regular    
+-Size: 1073741825
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /fifo
+-debugfs: stat /emptydir
+-Inode: III   Type: directory    
+-Size: 60
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /dir
+-Inode: III   Type: directory    
+-Size: 60
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /dir/file
+-Inode: III   Type: regular    
+-Size: 8
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /acl_dir
+-Inode: III   Type: directory    
+-Size: 60
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: stat /acl_dir/file
+-Inode: III   Type: regular    
+-Size: 10
+-Fragment:  Address: 0    Number: 0    Size: 0
+-debugfs: ea_list dir/file
+-Extended attributes:
+-  system.data (0)
+-debugfs: ea_list acl_dir
+-Extended attributes:
+-  system.data (0)
+-  system.posix_acl_access (28) = 01 00 00 00 01 00 07 00 04 00 05 00 08 00 05 00 2a 00 00 00 10 00 05 00 20 00 05 00 
+-  system.posix_acl_default (28) = 01 00 00 00 01 00 07 00 04 00 05 00 08 00 05 00 04 00 00 00 10 00 05 00 20 00 05 00 
+-debugfs: ea_list acl_dir/file
+-Extended attributes:
+-  system.data (0)
+-  system.posix_acl_access (28) = 01 00 00 00 01 00 07 00 04 00 05 00 08 00 05 00 2a 00 00 00 10 00 05 00 20 00 05 00 
+-Pass 1: Checking inodes, blocks, and sizes
+-Pass 2: Checking directory structure
+-Pass 3: Checking directory connectivity
+-Pass 4: Checking reference counts
+-Pass 5: Checking group summary information
+-test.img: 21/1024 files (0.0% non-contiguous), 1851/16384 blocks
+diff --git a/tests/m_rootdir_acl/output.sed b/tests/m_rootdir_acl/output.sed
+deleted file mode 100644
+index 2e76967..0000000
+--- a/tests/m_rootdir_acl/output.sed
++++ /dev/null
+@@ -1,5 +0,0 @@
+-s/^[[:space:]]*\([0-9]*\)\/[[:space:]]*\([0-9]*\)[[:space:]]*\([0-9]*\)\/[[:space:]]*\([0-9]*\)[[:space:]]*\([0-9]*\)[[:space:]]*-[[:space:]]*\([0-9]*\)[[:space:]]*[0-9]*[[:space:]]*-[[:space:]]*[0-9]*[[:space:]]*\([0-9]*\)/X \1\/\2 \3\/\4 \5-\6 AAA-BBB \7/g
+-s/^[[:space:]]*\([0-9]*\)\/[[:space:]]*\([0-9]*\)[[:space:]]*\([0-9]*\)\/[[:space:]]*\([0-9]*\)[[:space:]]*\([0-9]*\)[[:space:]]*-[[:space:]]*\([0-9]*\)[[:space:]]*[0-9]*[[:space:]]*\([0-9]*\)/Y \1\/\2 \3\/\4 \5-\6 AAA \7/g
+-s/Mode:.*$//g
+-s/User:.*Size:/Size:/g
+-s/^Inode: [0-9]*/Inode: III/g
+diff --git a/tests/m_rootdir_acl/script b/tests/m_rootdir_acl/script
+deleted file mode 100644
+index a00e4c4..0000000
+--- a/tests/m_rootdir_acl/script
++++ /dev/null
+@@ -1,110 +0,0 @@
+-test_description="create fs image from dir using inline_data and acls"
+-if ! test -x $DEBUGFS_EXE; then
+-	echo "$test_name: $test_description: skipped (no debugfs)"
+-	return 0
+-fi
+-
+-if ! setfacl --help > /dev/null 2>&1 ; then
+-	echo "$test_name: $test_description: skipped (no setfacl)"
+-	return 0
+-fi
+-
+-os=$(uname -s)
+-if [ "$os" = "GNU" ]; then
+-	# requires Posix ACL support
+-	echo "$test_name: $test_description: skipped for $os"
+-	return 0
+-fi
+-
+-MKFS_DIR=$(mktemp -d ./$test_name-XXXXXX.tmp)
+-OUT=$test_name.log
+-EXP=$test_dir/expect
+-
+-touch $MKFS_DIR/emptyfile
+-dd if=/dev/zero bs=1024 count=32 2> /dev/null | tr '\0' 'a' > $MKFS_DIR/bigfile
+-echo "M" | dd of=$MKFS_DIR/sparsefile bs=1 count=1 seek=1024 2> /dev/null
+-echo "M" | dd of=$MKFS_DIR/sparsefile bs=1 count=1 seek=524288 conv=notrunc 2> /dev/null
+-echo "M" | dd of=$MKFS_DIR/sparsefile bs=1 count=1 seek=1048576 conv=notrunc 2> /dev/null
+-echo "M" | dd of=$MKFS_DIR/sparsefile bs=1 count=1 seek=536870912 conv=notrunc 2> /dev/null
+-echo "M" | dd of=$MKFS_DIR/sparsefile bs=1 count=1 seek=1073741824 conv=notrunc 2> /dev/null
+-dd if=/dev/zero of=$MKFS_DIR/bigzerofile bs=1 count=1 seek=1073741824 2> /dev/null
+-ln $MKFS_DIR/bigzerofile $MKFS_DIR/bigzerofile_hardlink
+-ln -s /silly_bs_link $MKFS_DIR/silly_bs_link
+-mkdir $MKFS_DIR/emptydir
+-mkdir $MKFS_DIR/dir
+-echo "Test me" > $MKFS_DIR/dir/file
+-mkdir $MKFS_DIR/acl_dir
+-echo "Test me 2" > $MKFS_DIR/acl_dir/file
+-
+-setfacl --restore=- <<EOF
+-# file: $MKFS_DIR/acl_dir
+-user::rwx
+-group::r-x
+-group:42:r-x
+-mask::r-x
+-other::r-x
+-default:user::rwx
+-default:group::r-x
+-default:group:4:r-x
+-default:mask::r-x
+-default:other::r-x
+-EOF
+-setfacl --restore=- <<EOF
+-# file: $MKFS_DIR/acl_dir/file
+-user::rwx
+-group::r-x
+-group:42:r-x
+-mask::r-x
+-other::r-x
+-EOF
+-
+-if ! getfattr -d -m - $MKFS_DIR/acl_dir | grep -q posix_acl; then
+-	echo "$test_name: $test_description: skipped (no posix_acl xattrs)"
+-	rm -rf $MKFS_DIR
+-	return 0
+-fi
+-
+-# use 512-byte inodes so with/out security.selinux xattr doesn't fail
+-$MKE2FS -q -F -o Linux -T ext4 -I 512 -O metadata_csum,inline_data,64bit -E lazy_itable_init=1 -b 1024 -d $MKFS_DIR $TMPFILE 16384 > $OUT 2>&1
+-
+-$DUMPE2FS $TMPFILE >> $OUT 2>&1
+-cat > $TMPFILE.cmd << ENDL
+-stat /emptyfile
+-stat /bigfile
+-stat /sparsefile
+-stat /bigzerofile
+-stat /fifo
+-stat /emptydir
+-stat /dir
+-stat /dir/file
+-stat /acl_dir
+-stat /acl_dir/file
+-ENDL
+-$DEBUGFS -f $TMPFILE.cmd $TMPFILE 2>&1 | egrep "(stat|Size:|Type:)" >> $OUT
+-
+-cat > $TMPFILE.cmd << ENDL
+-ea_list dir/file
+-ea_list acl_dir
+-ea_list acl_dir/file
+-ENDL
+-$DEBUGFS -f $TMPFILE.cmd $TMPFILE >> $OUT 2>&1
+-
+-$FSCK -f -n $TMPFILE >> $OUT 2>&1
+-
+-sed -f $cmd_dir/filter.sed -f $test_dir/output.sed -e "s;$TMPFILE;test.img;" < $OUT > $OUT.tmp
+-mv $OUT.tmp $OUT
+-
+-# Do the verification
+-cmp -s $OUT $EXP
+-status=$?
+-
+-if [ "$status" = 0 ] ; then
+-	echo "$test_name: $test_description: ok"
+-	touch $test_name.ok
+-else
+-        echo "$test_name: $test_description: failed"
+-        diff $DIFF_OPTS $EXP $OUT > $test_name.failed
+-fi
+-
+-rm -rf $TMPFILE.cmd $MKFS_DIR
+-unset MKFS_DIR OUT EXP
+-- 
+2.41.0
+
