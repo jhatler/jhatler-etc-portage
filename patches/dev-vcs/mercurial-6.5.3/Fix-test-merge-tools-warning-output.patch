@@ -1,0 +1,34 @@
+From 6ce93a0eefb303f754f6edd5fd77d730b7c42f9e Mon Sep 17 00:00:00 2001
+From: root <root@akrolf516z33>
+Date: Mon, 1 Jan 2024 18:33:36 +0000
+Subject: [PATCH] Fix test-merge-tools warning output
+
+---
+ tests/test-merge-tools.t | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/test-merge-tools.t b/tests/test-merge-tools.t
+index 5ee0806..c6f5ce2 100644
+--- a/tests/test-merge-tools.t
++++ b/tests/test-merge-tools.t
+@@ -125,7 +125,7 @@ unexecutable file in $PATH shouldn't be found:
+   $ hg up -qC 1
+   $ PATH="`pwd`:/usr/sbin" "$PYTHON" "$BINDIR"/hg merge -r 2
+   merging f
+-  warning: conflicts while merging f! (edit, then use 'hg resolve --mark')
++  merging f failed!
+   0 files updated, 0 files merged, 0 files removed, 1 files unresolved
+   use 'hg resolve' to retry unresolved file merges or 'hg merge --abort' to abandon
+   [1]
+@@ -139,7 +139,7 @@ executable directory in $PATH shouldn't be found:
+   $ hg up -qC 1
+   $ PATH="`pwd`:/usr/sbin" "$PYTHON" "$BINDIR"/hg merge -r 2
+   merging f
+-  warning: conflicts while merging f! (edit, then use 'hg resolve --mark')
++  merging f failed!
+   0 files updated, 0 files merged, 0 files removed, 1 files unresolved
+   use 'hg resolve' to retry unresolved file merges or 'hg merge --abort' to abandon
+   [1]
+-- 
+2.41.0
+
