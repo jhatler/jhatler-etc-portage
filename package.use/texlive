@@ -1,0 +1,4 @@
+# required by dev-texlive/texlive-langcjk-2021::gentoo
+# required by dev-texlive/texlive-langchinese-2021::gentoo
+# required by dev-texlive/texlive-langchinese (argument)
+>=app-text/texlive-core-2021-r7 cjk
