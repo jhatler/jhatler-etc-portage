@@ -1,2 +1,9 @@
 # Needed for tests to pass
 dev-python/matplotlib webagg
+
+# Excel support
+dev-python/matplotlib excel
+
+# Latex support
+dev-python/matplotlib latex
+app-text/texlive-core xetex
