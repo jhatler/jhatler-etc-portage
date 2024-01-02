@@ -1,0 +1,1 @@
+dev-perl/Config-AutoConf lex-is-flex.conf # tests fail to find flex
