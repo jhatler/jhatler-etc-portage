@@ -1,0 +1,2 @@
+# needed to fix multisocket test failure in dev-python/pycurl
+>=net-misc/curl-8.4.0
