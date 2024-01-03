@@ -1,2 +1,3 @@
 app-shells/liquidprompt no-network-sandbox.conf # test fails without access to github
 app-emulation/qemu no-network-sandbox.conf # tests fail without network access
+net-libs/glib-networking no-network-sandbox.conf # environment-libproxy test fails without network access
