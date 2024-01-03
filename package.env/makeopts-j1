@@ -1,0 +1,1 @@
+sys-libs/binutils-libs makeopts-j1.conf # fails to compile when using multiple jobs
