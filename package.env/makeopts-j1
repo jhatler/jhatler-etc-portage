@@ -1,1 +1,2 @@
 sys-libs/binutils-libs makeopts-j1.conf # fails to compile when using multiple jobs
+dev-util/pkgconf makeopts-j1.conf # fails to pass tests when using multiple jobs
