@@ -1,1 +1,2 @@
 dev-python/cryptography pytest-xdist.conf # needed to run tests in parallel
+dev-python/pyparsing pytest-xdist.conf # tests are slow without this

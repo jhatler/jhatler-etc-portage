@@ -1,3 +1,5 @@
 dev-python/cryptography no-pytest-autoload.conf # fails to import openssl rust crate
 dev-python/bcrypt no-pytest-autoload.conf # fails to import c extension
 dev-python/kiwisolver no-pytest-autoload.conf # fails to pass all tests
+dev-python/flit-core no-pytest-autoload.conf # fails to pass all tests
+dev-python/pyparsing no-pytest-autoload.conf # fails to pass all tests

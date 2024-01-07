@@ -1,1 +1,3 @@
 dev-python/pypiserver no-pytest-asyncio.conf # tests fail if async io pytest plugins are loaded
+dev-python/poetry-core no-pytest-asyncio.conf # tests fail if async io pytest plugins are loaded
+dev-python/pkginfo no-pytest-asyncio.conf # tests fail if async io pytest plugins are loaded
