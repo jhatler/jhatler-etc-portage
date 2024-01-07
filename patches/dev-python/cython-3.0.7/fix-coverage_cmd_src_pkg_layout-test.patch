@@ -1,0 +1,11 @@
+--- a/tests/run/coverage_cmd_src_pkg_layout.srctree	2023-11-26 11:51:47.000000000 +0000
++++ b/tests/run/coverage_cmd_src_pkg_layout.srctree	2023-12-29 11:22:20.413588755 +0000
+@@ -2,7 +2,7 @@
+ # tag: coverage,trace
+ 
+ """
+-PYTHON -m pip install .
++PYTHON -m pip install --break-system-packages .
+ PYTHON setup.py build_ext --inplace
+ PYTHON -m coverage run --source=pkg coverage_test.py
+ PYTHON collect_coverage.py

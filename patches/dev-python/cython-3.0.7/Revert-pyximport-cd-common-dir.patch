@@ -1,0 +1,89 @@
+From 7e2d5ea260f315d8f82988bcd4266de8708b94cd Mon Sep 17 00:00:00 2001
+From: Jaremy Hatler <hatler.jaremy@gmail.com>
+Date: Sat, 23 Dec 2023 20:24:00 -0500
+Subject: [PATCH] Revert "pyximport: 'cd' into common dir to prevent too-long
+ filenames (mostly for windows) (GH-4630)"
+
+This reverts commit 344389e9be01a34b0d8a79260396c791b1183f69.
+---
+ pyximport/_pyximport2.py | 26 ++++++--------------------
+ pyximport/_pyximport3.py | 26 ++++++--------------------
+ 2 files changed, 12 insertions(+), 40 deletions(-)
+
+diff --git a/pyximport/_pyximport2.py b/pyximport/_pyximport2.py
+index afb360195..b2077826a 100644
+--- a/pyximport/_pyximport2.py
++++ b/pyximport/_pyximport2.py
+@@ -185,26 +185,12 @@ def build_module(name, pyxfilename, pyxbuild_dir=None, inplace=False, language_l
+     build_in_temp = sargs.pop('build_in_temp',build_in_temp)
+ 
+     from . import pyxbuild
+-    olddir = os.getcwd()
+-    common = ''
+-    if pyxbuild_dir:
+-        # Windows concatenates the pyxbuild_dir to the pyxfilename when
+-        # compiling, and then complains that the filename is too long
+-        common = os.path.commonprefix([pyxbuild_dir, pyxfilename])
+-    if len(common) > 30:
+-        pyxfilename = os.path.relpath(pyxfilename)
+-        pyxbuild_dir = os.path.relpath(pyxbuild_dir)
+-        os.chdir(common)
+-    try:
+-        so_path = pyxbuild.pyx_to_dll(pyxfilename, extension_mod,
+-                                      build_in_temp=build_in_temp,
+-                                      pyxbuild_dir=pyxbuild_dir,
+-                                      setup_args=sargs,
+-                                      inplace=inplace,
+-                                      reload_support=pyxargs.reload_support)
+-    finally:
+-        os.chdir(olddir)
+-    so_path = os.path.join(common, so_path)
++    so_path = pyxbuild.pyx_to_dll(pyxfilename, extension_mod,
++                                  build_in_temp=build_in_temp,
++                                  pyxbuild_dir=pyxbuild_dir,
++                                  setup_args=sargs,
++                                  inplace=inplace,
++                                  reload_support=pyxargs.reload_support)
+     assert os.path.exists(so_path), "Cannot find: %s" % so_path
+ 
+     junkpath = os.path.join(os.path.dirname(so_path), name+"_*")  #very dangerous with --inplace ? yes, indeed, trying to eat my files ;)
+diff --git a/pyximport/_pyximport3.py b/pyximport/_pyximport3.py
+index 629325933..dccd1d09e 100644
+--- a/pyximport/_pyximport3.py
++++ b/pyximport/_pyximport3.py
+@@ -183,26 +183,12 @@ def build_module(name, pyxfilename, pyxbuild_dir=None, inplace=False, language_l
+     build_in_temp = sargs.pop('build_in_temp',build_in_temp)
+ 
+     from . import pyxbuild
+-    olddir = os.getcwd()
+-    common = ''
+-    if pyxbuild_dir:
+-        # Windows concatenates the pyxbuild_dir to the pyxfilename when
+-        # compiling, and then complains that the filename is too long
+-        common = os.path.commonprefix([pyxbuild_dir, pyxfilename])
+-    if len(common) > 30:
+-        pyxfilename = os.path.relpath(pyxfilename)
+-        pyxbuild_dir = os.path.relpath(pyxbuild_dir)
+-        os.chdir(common)
+-    try:
+-        so_path = pyxbuild.pyx_to_dll(pyxfilename, extension_mod,
+-                                      build_in_temp=build_in_temp,
+-                                      pyxbuild_dir=pyxbuild_dir,
+-                                      setup_args=sargs,
+-                                      inplace=inplace,
+-                                      reload_support=pyxargs.reload_support)
+-    finally:
+-        os.chdir(olddir)
+-    so_path = os.path.join(common, so_path)
++    so_path = pyxbuild.pyx_to_dll(pyxfilename, extension_mod,
++                                  build_in_temp=build_in_temp,
++                                  pyxbuild_dir=pyxbuild_dir,
++                                  setup_args=sargs,
++                                  inplace=inplace,
++                                  reload_support=pyxargs.reload_support)
+     assert os.path.exists(so_path), "Cannot find: %s" % so_path
+ 
+     junkpath = os.path.join(os.path.dirname(so_path), name+"_*")  #very dangerous with --inplace ? yes, indeed, trying to eat my files ;)
+-- 
+2.43.0
+
