@@ -64,6 +64,7 @@ sys-kernel/gentoo-kernel-bin
 sys-kernel/gentoo-sources
 sys-kernel/installkernel-systemd
 sys-kernel/linux-firmware
+sys-process/htop
 sys-process/time
 x11-apps/xinput
 x11-drivers/xf86-input-synaptics
