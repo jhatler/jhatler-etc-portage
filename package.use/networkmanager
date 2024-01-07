@@ -1,0 +1,14 @@
+# for nmtui and nmcli
+net-misc/networkmanager tools
+
+# specify dhcp client
+net-misc/networkmanager dhclient
+
+# specify firewall utility
+net-misc/networkmanager nftables
+
+# wireless support
+net-misc/networkmanager bluetooth wifi
+
+# crypto provider
+net-misc/networkmanager -nss gnutls

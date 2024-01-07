@@ -49,6 +49,7 @@ dev-texlive/texlive-xetex
 dev-util/ccache
 dev-util/desktop-file-utils
 gnome-base/dconf
+net-misc/networkmanager
 sys-apps/systemd
 sys-block/thin-provisioning-tools
 sys-config/ltoize
