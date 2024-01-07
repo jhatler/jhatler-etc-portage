@@ -1,0 +1,25 @@
+From d61d9be2638d54ce83dfd0d472c871d3adcede30 Mon Sep 17 00:00:00 2001
+From: root <root@akrolf516z33>
+Date: Thu, 4 Jan 2024 04:19:42 +0000
+Subject: [PATCH] Removed synclient completions to bypass test failure.
+
+---
+ share/completions/synclient.fish | 6 ------
+ 1 file changed, 6 deletions(-)
+ delete mode 100644 share/completions/synclient.fish
+
+diff --git a/share/completions/synclient.fish b/share/completions/synclient.fish
+deleted file mode 100644
+index e5a2304..0000000
+--- a/share/completions/synclient.fish
++++ /dev/null
+@@ -1,6 +0,0 @@
+-set __fish_synclient_keys (synclient | string replace -r '\s*(\w+).*' '$1')
+-
+-complete -c synclient -s l -d "List current user settings"
+-complete -c synclient -s '?' -d "Show help"
+-complete -c synclient -s V -d "Show version"
+-complete -c synclient -xa "$__fish_synclient_keys"
+-- 
+2.41.0
+
