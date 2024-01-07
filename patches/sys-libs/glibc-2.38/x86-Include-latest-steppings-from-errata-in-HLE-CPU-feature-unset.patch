@@ -1,0 +1,16 @@
+diff --git a/sysdeps/x86/cpu-features.c b/sysdeps/x86/cpu-features.c
+index badf088874..0edc4cd535 100644
+--- a/sysdeps/x86/cpu-features.c
++++ b/sysdeps/x86/cpu-features.c
+@@ -797,7 +797,7 @@ init_cpu_features (struct cpu_features *cpu_features)
+ 		     all client processors on all steppings.  Include 0xc
+ 		     stepping which is an Intel Core i7-8665U, a client mobile
+ 		     processor.  */
+-	      if (stepping > 0xc)
++	      if (stepping > 0xd)
+ 		break;
+ 	      /* Fall through.  */
+ 	    case INTEL_BIGCORE_SKYLAKE:
+-- 
+2.43.0
+
