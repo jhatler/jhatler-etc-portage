@@ -7,3 +7,5 @@ x11-libs/libXpm no-test.conf
 # Tests take an unreasonable time and are flaky
 dev-vcs/mercurial no-test.conf
 
+# Tests are dependent on terminal and env vars
+dev-ruby/tty-editor no-test.conf
