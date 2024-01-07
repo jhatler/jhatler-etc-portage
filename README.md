@@ -66,3 +66,4 @@ needed, and adding new ones as I run package tests. You can find that work in th
 * I fixed a bug in `sys-libs/glibc` related to the detection of the Hardware Lock Elision (HLE) CPU feature. ([ac77f05](https://github.com/jhatler/jhatler-etc-portage/commit/ac77f05))
   * I need to submit this upstream still since it affects the latest versions as well.
 * A `sys-fs/e2fsprogs` tests fails when run on a BTRFS filesystem. ([02138bc](https://github.com/jhatler/jhatler-etc-portage/commit/02138bc))
+* Python 3.12 and Ruby 3.3 used exclusively (my personal overlay contains patches to support this).
