@@ -1,0 +1,1 @@
+dev-python/urllib3 makeopts-j8.conf # race condition in tests for -j16
