@@ -1,0 +1,2 @@
+# needed for Python 3.12 support
+app-misc/pax-utils **
