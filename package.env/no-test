@@ -3,3 +3,7 @@
 
 # Tests are flaky due to https://gitlab.freedesktop.org/xorg/lib/libxpm/-/issues/3
 x11-libs/libXpm no-test.conf
+
+# Tests take an unreasonable time and are flaky
+dev-vcs/mercurial no-test.conf
+
