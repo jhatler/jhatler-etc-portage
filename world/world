@@ -1,4 +1,6 @@
 app-backup/snapper
+app-crypt/efitools
+app-crypt/sbsigntools
 app-editors/gedit
 app-eselect/eselect-repository
 app-misc/byobu
@@ -64,8 +66,7 @@ sys-fs/dosfstools
 sys-fs/lvm2
 sys-fs/mdadm
 sys-kernel/dracut
-sys-kernel/gentoo-kernel-bin
-sys-kernel/gentoo-sources
+sys-kernel/gentoo-kernel
 sys-kernel/installkernel-systemd
 sys-kernel/linux-firmware
 sys-process/htop
