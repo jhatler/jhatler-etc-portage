@@ -1,0 +1,24 @@
+app-emulation/virt-manager gui
+app-emulation/libvirt lvm qemu virt-network
+
+# required by app-emulation/virt-manager-4.1.0-r1::jhatler-overlay[gui,test]
+# required by app-emulation/virt-manager (argument)
+>=net-misc/spice-gtk-0.42-r3 usbredir
+# required by app-emulation/libvirt-9.9.0::gentoo[virt-network]
+# required by app-emulation/libvirt-glib-5.0.0::gentoo
+# required by app-emulation/virt-manager-4.1.0-r1::jhatler-overlay[test]
+# required by app-emulation/virt-manager (argument)
+>=net-dns/dnsmasq-2.89-r1 script
+# required by app-crypt/swtpm-0.8.1-r2::gentoo
+# required by app-emulation/libvirt-9.9.0::gentoo[qemu]
+# required by app-emulation/libvirt-glib-5.0.0::gentoo
+# required by app-emulation/virt-manager-4.1.0-r1::jhatler-overlay[test]
+# required by app-emulation/virt-manager (argument)
+>=net-libs/gnutls-3.8.2 tools
+# required by media-libs/gst-plugins-base-1.22.8::jhatler-overlay[-gles2,opengl]
+# required by media-libs/gst-plugins-good-1.22.8::jhatler-overlay
+# required by net-misc/spice-gtk-0.42-r3::jhatler-overlay
+# required by app-emulation/virt-manager-4.1.0-r1::jhatler-overlay[gui,test]
+# required by @selected
+# required by @world (argument)
+>=media-libs/mesa-23.3.2 vulkan zink

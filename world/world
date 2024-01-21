@@ -1,7 +1,16 @@
 app-backup/snapper
+app-containers/docker
+app-containers/docker-buildx
+app-containers/docker-cli
+app-containers/docker-compose
+app-containers/docker-credential-helpers
 app-crypt/efitools
 app-crypt/sbsigntools
+app-editors/emacs
 app-editors/gedit
+app-editors/nano
+app-emulation/qemu
+app-emulation/virt-manager
 app-eselect/eselect-repository
 app-misc/byobu
 app-portage/genlop

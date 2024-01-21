@@ -1,0 +1,12 @@
+# graphics support
+app-editors/emacs cairo gif gpm gsettings gtk gui imagemagick jpeg png svg tiff webp xft xpm xwidgets sound
+media-gfx/imagemagick svg xml
+
+# Performance
+app-editors/emacs dynamic-loading gmp harfbuzz jit libxml2
+
+# Low-level features
+app-editors/emacs gfile json
+
+# emacs-common support
+app-emacs/emacs-common gsettings gui

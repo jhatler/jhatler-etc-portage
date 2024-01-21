@@ -1,0 +1,11 @@
+sys-libs/liburing compiler-clang.conf
+app-emulation/qemu compiler-clang.conf
+dev-util/spirv-headers compiler-clang.conf
+dev-util/spirv-tools compiler-clang.conf
+dev-util/spirv-llvm-translator compiler-clang.conf
+dev-util/vulkan-headers compiler-clang.conf
+media-libs/vulkan-loader compiler-clang.conf
+dev-libs/libclc compiler-clang.conf
+dev-util/intel_clc compiler-clang.conf
+app-emulation/libvirt compiler-clang.conf
+app-emulation/virt-manager compiler-clang.conf

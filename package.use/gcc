@@ -1,1 +1,1 @@
->=sys-devel/gcc-13 graphite lto pgo zstd
+>=sys-devel/gcc-13 graphite jit lto pgo zstd

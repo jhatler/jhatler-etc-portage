@@ -1,0 +1,6 @@
+app-containers/docker btrfs overlay
+app-containers/docker-credential-helpers keyring
+
+# required by app-containers/docker-24.0.7::gentoo
+# required by app-containers/docker (argument)
+>=app-containers/containerd-1.7.8 btrfs

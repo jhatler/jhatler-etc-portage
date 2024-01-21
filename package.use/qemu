@@ -1,0 +1,17 @@
+# performance features
+app-emulation/qemu bpf io-uring jemalloc zstd
+
+# hardware features
+app-emulation/qemu spice usb virtfs
+
+# graphics
+app-emulation/qemu gtk opengl pulseaudio sdl sdl-image vte
+
+# required by media-sound/pulseaudio-daemon-16.99.1::gentoo[alsa-plugin,alsa]
+# required by media-libs/libpulse-16.99.1-r1::gentoo
+# required by app-emulation/qemu-8.2.0::gentoo[pulseaudio]
+# required by app-emulation/libvirt-9.9.0::gentoo[qemu]
+# required by app-emulation/libvirt-glib-5.0.0::gentoo
+# required by app-emulation/virt-manager-4.1.0-r1::jhatler-overlay[test]
+# required by app-emulation/virt-manager (argument)
+>=media-plugins/alsa-plugins-1.2.7.1-r1 pulseaudio
