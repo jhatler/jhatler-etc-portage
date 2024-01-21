@@ -1,0 +1,15 @@
+sys-devel/llvm llvm-bootstrap.conf
+dev-python/lit llvm-bootstrap.conf
+sys-devel/clang llvm-bootstrap.conf
+sys-devel/llvm-toolchain-symlinks llvm-bootstrap.conf
+sys-devel/llvmgold llvm-bootstrap.conf
+sys-libs/compiler-rt llvm-bootstrap.conf
+sys-libs/compiler-rt-sanitizers llvm-bootstrap.conf
+sys-libs/libomp llvm-bootstrap.conf
+sys-devel/clang-common llvm-bootstrap.conf
+sys-devel/clang-runtime llvm-bootstrap.conf
+sys-devel/clang-toolchain-symlinks llvm-bootstrap.conf
+sys-devel/lld llvm-bootstrap.conf
+sys-devel/lld-toolchain-symlinks llvm-bootstrap.conf
+sys-libs/llvm-libunwind llvm-bootstrap.conf
+sys-libs/polly llvm-bootstrap.conf

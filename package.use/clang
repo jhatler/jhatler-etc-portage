@@ -1,0 +1,2 @@
+sys-devel/clang-common default-lld
+sys-devel/clang-runtime compiler-rt openmp sanitize
