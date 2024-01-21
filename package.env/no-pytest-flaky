@@ -1,0 +1,1 @@
+dev-python/pytest-forked no-pytest-flaky.conf # tests fail due to known issue
