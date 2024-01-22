@@ -34,6 +34,7 @@ media-libs/gst-plugins-base::jhatler-overlay
 media-libs/gst-plugins-good::jhatler-overlay
 media-libs/gst-plugins-ugly::jhatler-overlay
 media-libs/gstreamer::jhatler-overlay
+media-libs/jbig2dec::jhatler-overlay
 media-libs/libepoxy::jhatler-overlay
 media-libs/libglvnd::jhatler-overlay
 media-libs/opus::jhatler-overlay
