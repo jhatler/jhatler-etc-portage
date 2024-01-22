@@ -55,6 +55,9 @@ sys-apps/osinfo-db-tools::jhatler-overlay
 sys-apps/util-linux::jhatler-overlay
 sys-auth/pambase::jhatler-overlay
 sys-devel/automake::jhatler-overlay
+sys-devel/clang::jhatler-overlay
+sys-devel/lld::jhatler-overlay
+sys-devel/llvm::jhatler-overlay
 sys-libs/libseccomp::jhatler-overlay
 sys-libs/libxcrypt::jhatler-overlay
 x11-base/xorg-proto::jhatler-overlay
