@@ -18,6 +18,7 @@ dev-libs/libical::jhatler-overlay
 dev-libs/libinput::jhatler-overlay
 dev-libs/libnl::jhatler-overlay
 dev-libs/newt::jhatler-overlay
+dev-python/cython::jhatler-overlay
 dev-python/gpep517::jhatler-overlay
 dev-python/pytest-virtualenv::jhatler-overlay
 dev-python/uvloop::jhatler-overlay
