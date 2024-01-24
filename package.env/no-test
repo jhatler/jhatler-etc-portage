@@ -13,6 +13,11 @@ dev-ruby/tty-editor no-test.conf
 # Tests are failing with no such file or directory error in pytest
 dev-python/pytest-xdist no-test.conf
 dev-python/pytest-forked no-test.conf
+dev-python/jupyter-packaging no-test.conf
+dev-python/pytest-console-scripts no-test.conf
+dev-python/debugpy no-test.conf
+dev-python/jupyter-client no-test.conf
+dev-python/matplotlib no-test.conf
 
 # tests fail to import module
 dev-python/pytest-trio no-test.conf # tests fail
